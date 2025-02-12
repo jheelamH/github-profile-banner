@@ -1,12 +1,9 @@
-name: Update Dynamic Cover Image
+name: Update GitHub Profile Banner
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
-  push:
-    branches:
-      - main
-  workflow_dispatch:  # Allows manual trigger
+    - cron: "0 * * * *"  # Runs every hour
+  workflow_dispatch:      # Allows manual triggering
 
 jobs:
   update-banner:
@@ -22,16 +19,15 @@ jobs:
           python-version: "3.x"
 
       - name: Install dependencies
-        run: pip install pillow requests
+        run: pip install -r requirements.txt
 
-      - name: Generate Banner
+      - name: Generate new banner
         run: python generate_banner.py
 
-- name: Commit and Push Changes
-  run: |
-    git config --global user.name "github-actions[bot]"
-    git config --global user.email "github-actions[bot]@users.noreply.github.com"
-    git add banner.png
-    git commit -m "Updated dynamic cover image" || exit 0
-    git push https://x-access-token:${{ secrets.JEYA }}@github.com/jheelamH/github-profile-banner.git main
-
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add banner.png
+          git commit -m "Updated dynamic cover image" || exit 0
+          git push https://x-access-token:${{ secrets.JEYA }}@github.com/jheelamH/github-profile-banner.git main
